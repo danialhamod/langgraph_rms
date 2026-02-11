@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "langgraph-rms-integration"
+version = "0.1.0"
+description = "A standalone Python library for integrating LangGraph-based multi-agent systems with Rules Management Systems"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+    {name = "LangGraph RMS Team"}
+]
+keywords = ["langgraph", "rms", "rules", "multi-agent", "llm"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+    "pydantic>=2.0",
+    "fastapi>=0.100",
+    "httpx>=0.24",
+    "langchain-core>=0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "hypothesis>=6.0",
+    "respx>=0.20",
+    "pytest-cov>=4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/langgraph-rms/langgraph-rms-integration"
+Documentation = "https://github.com/langgraph-rms/langgraph-rms-integration#readme"
+Repository = "https://github.com/langgraph-rms/langgraph-rms-integration"
+Issues = "https://github.com/langgraph-rms/langgraph-rms-integration/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["langgraph_rms*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--cov=langgraph_rms",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+
+[tool.coverage.run]
+source = ["langgraph_rms"]
+omit = ["*/tests/*", "*/test_*.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
