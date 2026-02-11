@@ -84,7 +84,7 @@ class RuleCache:
             No exceptions raised - errors are logged and cache is preserved
         """
         config = get_config()
-        url = f"{config.rms_url}/rules/{product_name}"
+        url = f"{config.rms_url}/rules/active/{product_name}"
         headers = {"Authorization": f"Bearer {config.api_key}"}
 
         try:
@@ -93,7 +93,7 @@ class RuleCache:
                 response.raise_for_status()
                 
                 data = response.json()
-                rules = [CachedRule(**rule) for rule in data.get("rules", [])]
+                rules = [CachedRule(**rule) for rule in data]
                 
                 await self.refresh_rules(product_name, rules)
                 logger.info(
@@ -217,10 +217,31 @@ def format_rules_for_prompt(
         return formatter(rules)
 
     # Default formatting
-    formatted = "\n\n## Active Rules\n\n"
+    formatted = "\n\n## Additional Rules\n\n"
     formatted += "The following rules must be followed:\n\n"
 
     for i, rule in enumerate(rules, 1):
         formatted += f"{i}. {rule}\n"
 
     return formatted
+
+
+async def fetch_rules(product_name: Optional[str] = None) -> None:
+    """
+    Fetch active rules from RMS and populate cache.
+    
+    This should be called on application startup to ensure the cache
+    is populated with the latest rules from RMS.
+    
+    Args:
+        product_name: Optional product name (uses config default if None)
+        
+    Example:
+        >>> from langgraph_rms import initialize, RMSConfig, fetch_rules
+        >>> config = RMSConfig(...)
+        >>> initialize(config)
+        >>> await fetch_rules()  # Fetch rules on startup
+    """
+    config = get_config()
+    product = product_name or config.product_name
+    await _cache.fetch_from_rms(product)

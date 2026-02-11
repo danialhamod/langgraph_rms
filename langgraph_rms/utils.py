@@ -74,7 +74,7 @@ def safe_json_parse(content: str) -> Dict[str, Any]:
         raise ValueError(f"Failed to parse JSON: {e}. Content: {json_str[:200]}...")
 
 
-def create_llm_client(model_name: str = 'openai/gpt-oss-120b', api_key: str = 'KEY', base_url: str = 'https://api.together.xyz/v1', temperature: float = 0.0) -> Any:
+def create_llm_client(model_name: str = '', api_key: str = '', base_url: str = '', temperature: float = 0.0) -> Any:
     """
     Create LangChain LLM client for validation.
     

@@ -16,7 +16,7 @@ async def test_append_rules_to_prompt_with_rules():
     agent_name = "TestAgent"
     
     mock_rules = ["Rule 1: Always be polite", "Rule 2: Verify information"]
-    mock_formatted = "\n\n## Active Rules\n\nThe following rules must be followed:\n\n1. Rule 1: Always be polite\n2. Rule 2: Verify information\n"
+    mock_formatted = "\n\n## Additional Rules\n\nThe following rules must be followed:\n\n1. Rule 1: Always be polite\n2. Rule 2: Verify information\n"
     
     with patch("langgraph_rms.appender.get_rules_for_agent", new_callable=AsyncMock) as mock_get_rules:
         with patch("langgraph_rms.appender.format_rules_for_prompt") as mock_format:
@@ -97,7 +97,7 @@ async def test_create_prompt_wrapper():
     base_prompt = "You are a helpful assistant."
     
     mock_rules = ["Rule 1: Test rule"]
-    mock_formatted = "\n\n## Active Rules\n\nThe following rules must be followed:\n\n1. Rule 1: Test rule\n"
+    mock_formatted = "\n\n## Additional Rules\n\nThe following rules must be followed:\n\n1. Rule 1: Test rule\n"
     
     with patch("langgraph_rms.appender.get_rules_for_agent", new_callable=AsyncMock) as mock_get_rules:
         with patch("langgraph_rms.appender.format_rules_for_prompt") as mock_format:
@@ -131,7 +131,7 @@ async def test_append_rules_convenience_function():
     product_name = "test_product"
     
     mock_rules = ["Rule 1: Test rule"]
-    mock_formatted = "\n\n## Active Rules\n\nThe following rules must be followed:\n\n1. Rule 1: Test rule\n"
+    mock_formatted = "\n\n## Additional Rules\n\nThe following rules must be followed:\n\n1. Rule 1: Test rule\n"
     
     with patch("langgraph_rms.appender.get_rules_for_agent", new_callable=AsyncMock) as mock_get_rules:
         with patch("langgraph_rms.appender.format_rules_for_prompt") as mock_format:

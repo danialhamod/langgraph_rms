@@ -34,6 +34,7 @@ from langgraph_rms.validator import (
 from langgraph_rms.cache import (
     get_rules_for_agent,
     format_rules_for_prompt,
+    fetch_rules,
 )
 from langgraph_rms.appender import (
     RulesAppender,
@@ -70,6 +71,7 @@ __all__ = [
     # Cache
     "get_rules_for_agent",
     "format_rules_for_prompt",
+    "fetch_rules",
     # Appender
     "RulesAppender",
     "append_rules",

@@ -59,7 +59,12 @@ def create_router() -> APIRouter:
             config = get_config()
 
             # Create LLM client
-            llm_client = create_llm_client() #TODO: back to: create_llm_client(config.llm_model)
+            llm_client = create_llm_client(
+                model_name=config.llm_model,
+                api_key=config.llm_api_key,
+                base_url=config.llm_base_url,
+                temperature=config.llm_temperature
+            )
 
             # Create validator
             validator = RuleValidator(llm_client)

@@ -39,6 +39,9 @@ class RMSConfig:
         rms_url: str,
         api_key: str,
         llm_model: str,
+        llm_api_key: str = "",
+        llm_base_url: str = "https://api.together.xyz/v1",
+        llm_temperature: float = 0.0,
         compatibility_threshold: float = 0.7,
         request_timeout: float = 10.0,
     ):
@@ -51,6 +54,9 @@ class RMSConfig:
             rms_url: Base URL of the RMS service
             api_key: API key for authenticating with RMS
             llm_model: LLM model name for validation
+            llm_api_key: API key for LLM provider (default: "")
+            llm_base_url: Base URL for LLM provider (default: "https://api.together.xyz/v1")
+            llm_temperature: Temperature for LLM (default: 0.0)
             compatibility_threshold: Minimum score for rule application (default: 0.7)
             request_timeout: HTTP request timeout in seconds (default: 10.0)
         """
@@ -59,6 +65,9 @@ class RMSConfig:
         self.rms_url = rms_url
         self.api_key = api_key
         self.llm_model = llm_model
+        self.llm_api_key = llm_api_key
+        self.llm_base_url = llm_base_url
+        self.llm_temperature = llm_temperature
         self.compatibility_threshold = compatibility_threshold
         self.request_timeout = request_timeout
 
@@ -114,12 +123,14 @@ class RMSConfig:
 _config: Optional[RMSConfig] = None
 
 
-def initialize(config: RMSConfig) -> None:
+async def initialize(config: RMSConfig, fetch_rules_on_init: bool = True) -> None:
     """
-    Initialize the package with configuration.
+    Initialize the package with configuration and optionally fetch rules.
 
     Args:
         config: RMSConfig instance with validated configuration
+        fetch_rules_on_init: If True, fetch active rules from RMS after initialization.
+                            Defaults to True for convenience.
 
     Raises:
         ValueError: If configuration is invalid
@@ -132,10 +143,23 @@ def initialize(config: RMSConfig) -> None:
         ...     rms_url="https://rms.example.com",
         ...     api_key="secret-key"
         ... )
-        >>> initialize(config)
+        >>> await initialize(config)  # Automatically fetches rules
+        >>> # Or skip initial fetch:
+        >>> await initialize(config, fetch_rules_on_init=False)
     """
     global _config
     _config = config
+    
+    # Optionally fetch rules from RMS on initialization
+    if fetch_rules_on_init:
+        try:
+            from langgraph_rms.cache import fetch_rules
+            await fetch_rules(config.product_name)
+        except Exception as e:
+            # Log warning but don't fail initialization
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.warning(f"Failed to fetch rules on initialization: {e}")
 
 
 def get_config() -> RMSConfig:
