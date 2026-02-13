@@ -145,7 +145,10 @@ class RuleValidator:
                 can_be_applied=len(applied_agents) > 0,
                 max_compatibility_score=max_score,
                 explanation=parsed_data.get(
-                    "system_summary", "Rule validation completed"
+                    "system_summary", "تم التحقق من القاعدة"
+                ),
+                explanation_en=parsed_data.get(
+                    "system_summary_en", "Rule validation completed"
                 ),
                 validation_metadata=validation_metadata,
             )

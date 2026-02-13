@@ -139,7 +139,8 @@ For each agent that meets the compatibility threshold (>= 0.7), you MUST:
       "rule_to_apply": "<English version of the rule, formatted as a clear instruction ready to add to the agent's prompt>"
     }}
   ],
-  "system_summary": "<brief overall summary of the rule's compatibility with the system>"
+  "system_summary": "<arabic 50-75 words brief overall summary of the rule's compatibility with the system, without mentioning scores, with mention of which agents the rule can be applied to and which are not suitable>",
+  "system_summary_en": "<english version of system_summary above>"
 }}
 ```
 

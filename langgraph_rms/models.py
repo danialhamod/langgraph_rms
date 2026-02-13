@@ -76,7 +76,8 @@ class RuleValidation(BaseModel):
         le=1.0,
         description="Maximum compatibility score across all agents"
     )
-    explanation: str = Field(..., description="Explanation of validation result")
+    explanation: str = Field(..., description="Arabic explanation of validation result")
+    explanation_en: str = Field(..., description="English explanation of validation result")
     validation_metadata: ValidationMetadata = Field(
         ..., 
         description="Detailed validation metadata for each agent"
