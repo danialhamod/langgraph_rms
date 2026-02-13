@@ -162,6 +162,7 @@ class RuleValidator:
                 can_be_applied=False,
                 max_compatibility_score=0.0,
                 explanation=f"Validation failed: {str(e)}",
+                explanation_en=f"Validation failed: {str(e)}",
                 validation_metadata=ValidationMetadata(applied_agents=[]),
             )
 
